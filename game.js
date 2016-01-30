@@ -36,6 +36,7 @@ var feaPickup;
 var vooPickup;
 var medPickup;
 var bookPickup;
+var player_health = 1;
 
 var feather, book, medicinepouch, necklace, voodoo;
 var cauldron;
@@ -123,6 +124,23 @@ function create() {
 }
 
 function update() {
+
+        //If player is dead, respawn
+	if (player_health == 0) {
+		player.body.x = 280;
+		player.body.y = 736;
+		player_health = 1;
+
+		//Move enemy back to start position
+		dood.body.x = 400;
+		dood.body.y = 736;
+	}
+
+            //Check enemy collision
+    if (game.physics.arcade.collide(player, dood) == true) {
+    	//Ayy hit player lmao
+    	player_health--;
+    }
         game.physics.arcade.collide(player, layer);
         game.physics.arcade.collide(dood, layer);
 
