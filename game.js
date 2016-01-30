@@ -9,16 +9,13 @@ function preload() {
     game.load.spritesheet('soda', 'assets/Sprite-Soda.png', 16,30 );
     game.load.image('starSmall', 'assets/star.png');
     game.load.image('starBig', 'assets/star2.png');
-<<<<<<< HEAD
     game.load.image('background', 'assets/tilebackground.png');
     game.load.image('feather', 'assets/feathersprite.png');
     game.load.image('book', 'assets/booksprite.png');
     game.load.image('medicinepouch', 'assets/medicinepouchsprite.png');
     game.load.image('necklace', 'assets/necklacesprite.png');
     game.load.image('voodoo', 'assets/voodoosprite.png');
-=======
     game.load.image('background', 'assets/background2.png');
->>>>>>> a9061ba202848bd8270540919a52439d81dfea28
 
 }
 
@@ -31,15 +28,13 @@ var jumpTimer = 0;
 var cursors;
 var jumpButton;
 var bg;
-<<<<<<< HEAD
+
 var deathPlane;
 
 var feather, book, medicinepouch, necklace, voodoo;
-=======
 var item;
 var sodaItem;
 var sodaPicked;
->>>>>>> a9061ba202848bd8270540919a52439d81dfea28
 
 function create() {
 jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
