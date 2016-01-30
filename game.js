@@ -14,8 +14,6 @@ function preload() {
     game.load.image('necklace', 'assets/necklacesprite.png');
     game.load.image('voodoo', 'assets/voodoosprite.png');
     game.load.image('background', 'assets/background2.png');
-
-
 }
 
 var map;
@@ -60,7 +58,7 @@ function create() {
 
     game.physics.arcade.gravity.y = 600;
 
-    player = game.add.sprite(200, 0, 'dude');
+    player = game.add.sprite(280, 736, 'dude');
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.bounce.y = 0.2;
@@ -71,7 +69,7 @@ function create() {
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
 
-    dood = game.add.sprite(200, 0, 'enemy');
+    dood = game.add.sprite(400, 736, 'enemy');
     game.physics.enable(dood, Phaser.Physics.ARCADE);
 
     dood.body.bounce.y = 0.2;
@@ -164,6 +162,20 @@ function update() {
     {
         player.body.velocity.y = -250;
         jumpTimer = game.time.now + 750;
+    }
+
+    //Enemy follow player
+    game.physics.arcade.moveToObject(dood, player, 10);
+
+    //Check enemy direction for animation purposes
+    if (dood.body.velocity.x < 0) {
+    	//Left animation
+    	dood.animations.play('left');
+    }
+
+    else if (dood.body.velocity.x > 0) {
+    	//Right animation
+    	dood.animations.play('right');
     }
 }
 
