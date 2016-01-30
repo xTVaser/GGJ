@@ -281,27 +281,12 @@ function update() {
     if (neckPickup == true)
     {
       gun = true;
-      gunDamage = 50;
-    }
-
-    if (vooPickup == true)
-    {
-      gunDamage = 100;
-    }
-
-    if (medPickup)
-    {
-      player_health = 2;
+      player_damage = 50;
     }
 
     if (feaPickup == true)
     {
       game.physics.arcade.gravity.y = 300;
-    }
-
-    if (bookPickup)
-    {
-
     }
 
     player.body.velocity.x = 0;
@@ -317,9 +302,6 @@ function update() {
         if (cursors.left.isDown) {
                 player.body.velocity.x = -150;
 
-                txt = game.add.sprite(game.camera.width - 50, game.camera.height - 50, 'dude');
-                txt.anchor.setTo(0.5, 0.5);
-                txt.fixedToCamera = true;
 
                 if (facing != 'left') {
                         player.animations.play('left');
