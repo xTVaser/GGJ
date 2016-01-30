@@ -18,15 +18,12 @@ function preload() {
     game.load.spritesheet('witch', 'assets/witchset.png',25.5,40);
 }
 
-var map;
-var tileset;
-var layer1;
-var layer2;
+var map, tileset, layer1, layer2;
 var player, dood;
 var facing = 'left';
 var jumpTimer = 0;
-var cursors;
-var jumpButton;
+var shootTimer = 0;
+var cursors, shootButton;
 var bg;
 var deathPlane;
 var neckPickup;
@@ -44,7 +41,7 @@ var sodaPicked;
 var witch;
 
 function create() {
-    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    shootButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     cursors = game.input.keyboard.createCursorKeys();
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -87,7 +84,6 @@ function create() {
     dood.body.bounce.y = 0.2;
     dood.body.collideWorldBounds = true;
     dood.body.setSize(20, 32, 5, 10);
-
     dood.animations.add('left', [3, 2, 1, 0], 10, true);
     dood.animations.add('turn', [4], 20, true);
     dood.animations.add('right', [5, 6, 7, 8], 10, true);
@@ -222,10 +218,16 @@ function update() {
     }
 
     //Jump
-    if ((jumpButton.isDown || cursors.up.isDown) && player.body.onFloor() && game.time.now > jumpTimer)
+    if (cursors.up.isDown && player.body.onFloor() && game.time.now > jumpTimer)
     {
         player.body.velocity.y = -250;
         jumpTimer = game.time.now + 750;
+    }
+
+    //shoot
+    if (shootButton.isDown && game.time.now > shootTimer) {
+            //player.body.velocity.y = -250;
+           shootTimer = game.time.now + 750;
     }
 
     //Enemy follow player
