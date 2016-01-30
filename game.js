@@ -4,7 +4,7 @@ function preload() {
 
     game.load.tilemap('level1', 'assets/cutie.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tiles-1', 'assets/tiles-1.png');
-    game.load.spritesheet('dude', 'assets/guyset1.png', 32, 48);
+    game.load.spritesheet('dude', 'assets/guyset2.png', 32, 48);
     game.load.spritesheet('droid', 'assets/droid.png', 32, 32);
     game.load.image('starSmall', 'assets/star.png');
     game.load.image('starBig', 'assets/star2.png');
@@ -23,7 +23,8 @@ var jumpButton;
 var bg;
 
 function create() {
-
+jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+cursors = game.input.keyboard.createCursorKeys();
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     game.stage.backgroundColor = '#000000';
@@ -40,13 +41,13 @@ function create() {
     layer = map.createLayer('Tile Layer 1');
 
     //  Un-comment this on to see the collision tiles
-    // layer.debug = true;
+    //  layer.debug = true;
 
     layer.resizeWorld();
 
-    game.physics.arcade.gravity.y = 250;
+    game.physics.arcade.gravity.y = 600;
 
-    player = game.add.sprite(32, 32, 'dude');
+    player = game.add.sprite(192, 585, 'dude');
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.bounce.y = 0.2;
@@ -57,10 +58,12 @@ function create() {
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
 
+    txt = game.add.sprite(game.camera.width -50, game.camera.height -50, 'dude');txt.anchor.setTo(0.5, 0.5);txt.fixedToCamera = true;
+
     game.camera.follow(player);
 
-    cursors = game.input.keyboard.createCursorKeys();
-    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+
 
 }
 
