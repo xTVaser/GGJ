@@ -73,7 +73,7 @@ function create() {
 
 
         player = game.add.sprite(280, 736, 'dude');
-      game.physics.arcade.gravity.y = 450;
+        game.physics.arcade.gravity.y = 450;
 
         game.physics.enable(player, Phaser.Physics.ARCADE);
 
@@ -82,7 +82,7 @@ function create() {
         player.body.setSize(20, 32, 5, 8);
 
         game.camera.follow(player);
-        
+
         player.animations.add('left', [3, 2, 1, 0], 10, true);
         player.animations.add('turn', [4], 20, true);
         player.animations.add('right', [5, 6, 7, 8], 10, true);
