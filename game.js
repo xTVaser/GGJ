@@ -22,10 +22,23 @@ var jumpTimer = 0;
 var cursors;
 var jumpButton;
 var bg;
+var deathPlane;
 
 function create() {
-jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-cursors = game.input.keyboard.createCursorKeys();
+    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    cursors = game.input.keyboard.createCursorKeys();
+
+    var _container = game.add.sprite(0,0);
+    var deathPlane = game.add.graphics(game.width, game.height);
+    deathPlane.beginFill(0,0);
+    deathPlane.x = 0;
+    deathPlane.y = 0;
+    deathPlane.drawRect(0,0,100,100);
+    _container.width = 100;
+    _container.height = 100;
+    _container.addChild(deathPlane);
+    game.physics.enable(_container, Phaser.Physics.ARCADE);
+
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     game.stage.backgroundColor = '#000000';
@@ -70,18 +83,14 @@ cursors = game.input.keyboard.createCursorKeys();
     dood.animations.add('left', [3, 2, 1, 0], 10, true);
     dood.animations.add('turn', [4], 20, true);
     dood.animations.add('right', [5, 6, 7, 8], 10, true);
-
-
-
-
-
-
+    game.camera.follow(player);
 }
 
 function update() {
 
     game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(dood, layer);
+    game.physics.arcade.collide(player, deathPlane);
 
     player.body.velocity.x = 0;
 
@@ -89,7 +98,9 @@ function update() {
     {
         player.body.velocity.x = -150;
 
-        txt = game.add.sprite(game.camera.width -50, game.camera.height -50, 'dude');txt.anchor.setTo(0.5, 0.5);txt.fixedToCamera = true;
+        txt = game.add.sprite(game.camera.width -50, game.camera.height -50, 'dude');
+        txt.anchor.setTo(0.5, 0.5);
+        txt.fixedToCamera = true;
 
         if (facing != 'left')
         {
