@@ -8,6 +8,7 @@ function preload() {
     game.load.image('starSmall', 'assets/star.png');
     game.load.image('starBig', 'assets/star2.png');
     game.load.image('background', 'assets/tilebackground.png');
+    game.load.image('feather', 'assets/feathersprite.png');
 
 }
 
@@ -22,6 +23,8 @@ var cursors;
 var jumpButton;
 var bg;
 var deathPlane;
+
+var feather;
 
 function create() {
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -42,7 +45,7 @@ function create() {
     layer2 = map.createLayer('grass');
 
     //  Un-comment this on to see the collision tiles
-    //layer.debug = true;
+    //player.debug = true;
 
     layer.resizeWorld();
 
@@ -70,8 +73,18 @@ function create() {
     dood.animations.add('turn', [4], 20, true);
     dood.animations.add('right', [5, 6, 7, 8], 10, true);
     game.camera.follow(player);
+
+    addSprite(1890,608,'feather',feather,20,32,5,8)
 }
 
+function addSprite(x, y, sprite, variable, sizeX, sizeY, sizeX2, sizeY2) {
+        variable = game.add.sprite(x, y, sprite);
+        //game.physics.enable(variable, Phaser.Physics.ARCADE);
+
+        variable.body.bounce.y = 0.2;
+        variable.body.collideWorldBounds = true;
+        variable.body.setSize(sizeX, sizeY, sizeX2, sizeY2);
+}
 function update() {
     game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(dood, layer);
@@ -145,9 +158,9 @@ function update() {
 function render () {
 
     // game.debug.text(game.time.physicsElapsed, 32, 32);
-    // game.debug.body(player);
-    // game.debug.bodyInfo(player, 16, 24);
+     game.debug.body(player);
+     game.debug.bodyInfo(player, 16, 24);
     game.debug.text(player.x, 32, 32);
-    game.debug.text(player.y, 32, 45);
+    //game.debug.text(player.y, 32, 45);
 
 }
