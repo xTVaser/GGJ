@@ -14,7 +14,8 @@ function preload() {
     game.load.image('necklace', 'assets/necklacesprite.png');
     game.load.image('voodoo', 'assets/voodoosprite.png');
     game.load.image('background', 'assets/background2.png');
-
+    game.load.spritesheet('cauldron', 'assets/cauldronset.png', 19,29);
+    game.load.spritesheet('witch', 'assets/witchset.png',25.5,40);
 
 }
 
@@ -31,9 +32,12 @@ var bg;
 var deathPlane;
 
 var feather, book, medicinepouch, necklace, voodoo;
+var cauldron;
 var item;
 var sodaItem;
 var sodaPicked;
+
+var witch;
 
 function create() {
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -48,7 +52,7 @@ function create() {
 
     map.addTilesetImage('tileset1');
 
-    map.setCollisionByExclusion([ 13, 14, 15, 16, 46, 47, 48, 49, 50, 51 ]);
+    map.setCollisionByExclusion([ 3,9,12,13,15, 14, 16]);
 
     layer = map.createLayer('ground');
     layer2 = map.createLayer('grass');
@@ -58,14 +62,17 @@ function create() {
 
     layer.resizeWorld();
 
-    game.physics.arcade.gravity.y = 600;
 
-    player = game.add.sprite(200, 0, 'dude');
+    game.physics.arcade.gravity.y = 200;
+
+    player = game.add.sprite(9410, 736, 'dude');
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.bounce.y = 0.2;
     player.body.collideWorldBounds = true;
     player.body.setSize(20, 32, 5, 8);
+
+    game.camera.follow(player);
 
     player.animations.add('left', [3, 2, 1, 0], 10, true);
     player.animations.add('turn', [4], 20, true);
@@ -81,26 +88,30 @@ function create() {
     dood.animations.add('left', [3, 2, 1, 0], 10, true);
     dood.animations.add('turn', [4], 20, true);
     dood.animations.add('right', [5, 6, 7, 8], 10, true);
-    game.camera.follow(player);
 
-    addSprite(903,544,'necklace',necklace,20,32,5,8);
-    addSprite(2200,810,'feather',feather,20,32,5,8);
-    addSprite(3850,32,'voodoo',voodoo,20,32,5,8);
-    addSprite(4875,1216,'medicinepouch',medicinepouch,20,32,5,8);
-    addSprite(6753,672,'book',book,20,32,5,8);
+
+    necklace = game.add.sprite(903,550,'necklace');
+    feather = game.add.sprite(2205,832,'feather');
+    voodoo = game.add.sprite(3840,32,'voodoo');
+    medicinepouch = game.add.sprite(4875,1220,'medicinepouch');
+    book = game.add.sprite(6753,680,'book');
+    cauldron = game.add.sprite(9415,736,'cauldron');
+
+    cauldron.animations.add('play', [0,1], 1, true);
+
+    witch = game.add.sprite(9435, 705, 'witch');
+    witch.scale.setTo(1.5);
+    witch.animations.add('play', [0,1], 1, true);
+
+
 }
 
-function addSprite(x, y, sprite, variable, sizeX, sizeY, sizeX2, sizeY2) {
-        variable = game.add.sprite(x, y, sprite);
-        //game.physics.enable(variable, Phaser.Physics.ARCADE);
-
-        variable.body.bounce.y = 0.2;
-        variable.body.collideWorldBounds = true;
-        variable.body.setSize(sizeX, sizeY, sizeX2, sizeY2);
-}
 function update() {
     game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(dood, layer);
+    cauldron.animations.play('play');
+    witch.animations.play('play');
+
 
     player.body.velocity.x = 0;
 
