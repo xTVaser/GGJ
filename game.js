@@ -28,16 +28,7 @@ function create() {
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     cursors = game.input.keyboard.createCursorKeys();
 
-    var _container = game.add.sprite(0,0);
-    var deathPlane = game.add.graphics(game.width, game.height);
-    deathPlane.beginFill(0,0);
-    deathPlane.x = 0;
-    deathPlane.y = 0;
-    deathPlane.drawRect(0,0,100,100);
-    _container.width = 100;
-    _container.height = 100;
-    _container.addChild(deathPlane);
-    game.physics.enable(_container, Phaser.Physics.ARCADE);
+    
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
