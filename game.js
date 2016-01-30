@@ -21,6 +21,7 @@ function preload() {
         game.load.image('background', 'assets/background2.png');
         game.load.spritesheet('cauldron', 'assets/cauldronset.png', 19, 29);
         game.load.spritesheet('witch', 'assets/witchset.png', 25.5, 40);
+        game.load.image('orb', 'assets/orbsprite.png');
 }
 
 var map, tileset, layer1, layer2;
@@ -56,6 +57,8 @@ var bookText;
 
 var witch;
 
+var nextFire = 0;
+var fireRate = 100;
 
 function create() {
         shootButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -130,6 +133,15 @@ function create() {
 
         game.physics.enable(book, Phaser.Physics.ARCADE);
         book.body.collideWorldBounds = true;
+
+        //orbs
+        orbs = game.add.group();
+        orbs.enableBody = true;
+        orbs.physicsBodyType = Phaser.Physics.ARCADE;
+
+        orbs.createMultiple(20, 'orb');
+        orbs.setAll('checkWorldBounds', true);
+        orbs.setAll('outOfBoundsKill', true);
 }
 
 function update() {
@@ -323,6 +335,7 @@ function update() {
         if (shootButton.isDown && game.time.now > shootTimer) {
                 //player.body.velocity.y = -250;
                 shootTimer = game.time.now + 750;
+                fire();
         }
 
         //Enemy follow player
@@ -345,5 +358,14 @@ function render() {
         game.debug.bodyInfo(player, 16, 24);
         //game.debug.text(player.x, 32, 32);
         //game.debug.text(player.y, 32, 45);
+}
 
+function fire() {
+    if (game.time.now > nextFire && orbs.countDead() > 0)
+    {
+        nextFire = game.time.now + fireRate;
+        var orb = orbs.getFirstDead();
+        orb.reset(player.x - 8, player.y - 8);
+        game.physics.arcade.moveToObject(orb, dood, 500);
+    }
 }
