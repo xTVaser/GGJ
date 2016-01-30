@@ -6,6 +6,7 @@ function preload() {
     game.load.image('tiles-1', 'assets/tiles-1.png');
     game.load.spritesheet('dude', 'assets/guyset2.png', 32, 48);
     game.load.spritesheet('droid', 'assets/droid.png', 32, 32);
+    game.load.spritesheet('soda', 'assets/Sprite-Soda.png', 16,30 );
     game.load.image('starSmall', 'assets/star.png');
     game.load.image('starBig', 'assets/star2.png');
     game.load.image('background', 'assets/background2.png');
@@ -21,6 +22,7 @@ var jumpTimer = 0;
 var cursors;
 var jumpButton;
 var bg;
+var item;
 
 function create() {
 jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -50,6 +52,10 @@ cursors = game.input.keyboard.createCursorKeys();
     player = game.add.sprite(192, 585, 'dude');
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
+    item = game.add.sprite(330, 585, 'soda');
+    game.physics.enable(item, Phaser.Physics.ARCADE);
+    item.body.collideWorldBounds = true;
+
     player.body.bounce.y = 0.2;
     player.body.collideWorldBounds = true;
     player.body.setSize(20, 32, 5, 16);
@@ -58,7 +64,7 @@ cursors = game.input.keyboard.createCursorKeys();
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
 
-    txt = game.add.sprite(game.camera.width -50, game.camera.height -50, 'dude');txt.anchor.setTo(0.5, 0.5);txt.fixedToCamera = true;
+    //txt = game.add.sprite(game.camera.width -50, game.camera.height -50, 'dude');txt.anchor.setTo(0.5, 0.5);txt.fixedToCamera = true;
 
     game.camera.follow(player);
 
@@ -69,9 +75,25 @@ cursors = game.input.keyboard.createCursorKeys();
 
 function update() {
 
+    var itemPickup1 = false;
+
     game.physics.arcade.collide(player, layer);
+    game.physics.arcade.collide(item, layer);
 
     player.body.velocity.x = 0;
+
+    if (game.physics.arcade.collide(player, item) == true)
+    {
+      item.destroy(true);
+      sodaItem = game.add.sprite(game.camera.width -50, game.camera.height+210, 'soda');
+      sodaItem.anchor.setTo(0.5, 0.5);
+      sodaItem.fixedToCamera = true;
+    }
+
+    /*if (itemPickup1 == true)
+    {
+
+    }*/
 
     if (cursors.left.isDown)
     {
