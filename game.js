@@ -59,14 +59,8 @@ cursors = game.input.keyboard.createCursorKeys();
     player.animations.add('left', [3, 2, 1, 0], 10, true);
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
-
-
-
+    
     game.camera.follow(player);
-
-
-
-
 }
 
 function update() {
@@ -79,7 +73,9 @@ function update() {
     {
         player.body.velocity.x = -150;
 
-        txt = game.add.sprite(game.camera.width -50, game.camera.height -50, 'dude');txt.anchor.setTo(0.5, 0.5);txt.fixedToCamera = true;
+        txt = game.add.sprite(game.camera.width -50, game.camera.height -50, 'dude');
+        txt.anchor.setTo(0.5, 0.5);
+        txt.fixedToCamera = true;
 
         if (facing != 'left')
         {
