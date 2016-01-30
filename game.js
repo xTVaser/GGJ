@@ -246,6 +246,7 @@ function update() {
             witch = game.add.sprite(9435, 705, 'witch');
             witch.scale.setTo(1.5);
             witch.animations.add('play', [0, 1], 1, true);
+            witch.body.collideWorldBounds = true;
 
             text = game.add.text(game.camera.width/2, game.camera.height/2, 'Book picked up! The witch has been notified of your presence...');
             text.anchor.setTo(0.5, 0.5);
@@ -260,23 +261,23 @@ function update() {
             }, 3000);
     }
 
+    if (game.physics.arcade.collide(witch, orbs) == true) {
+      witch_health -= player_damage;
+    }
+
         //If player is dead, respawn
 	if (player_health == 0) {
 		player.body.x = 280;
 		player.body.y = 736;
 		player_health = 1;
-
-		//Move enemy back to start position
-		//dood.body.x = 400;
-		//dood.body.y = 736;
 	}
 
-            //Check enemy collision
-    //if (game.physics.arcade.collide(player, dood) == true) {
-    	//Ayy hit player lmao
-    	//player_health--;
-    //}
-
+  //Check witch health
+  if (witch_health == 0) {
+    //win game
+    console.log(witch_health);
+    witch.destroy(true);
+  }
 
     if (neckPickup == true)
     {
@@ -347,10 +348,10 @@ function update() {
                 fire();
         }
 
-        //Enemy follow player
+        //Enemy follow player and check for collision
         doods.forEach(function(dood) {
           game.physics.arcade.moveToObject(dood, player, 10);
-          
+          game.physics.arcade.collide(player, doods, playerHitEnemy, null, this);
           if (dood.body.velocity.x < 0) {
                   //Left animation
                   dood.animations.play('left');
@@ -358,7 +359,12 @@ function update() {
                   //Right animation
                   dood.animations.play('right');
           }
-        })
+
+          //Check if any bullets have hit us
+          if (game.physics.arcade.collide(dood, orbs) == true) {
+            dood.destroy(true);
+          }
+        });
 
 
 }
@@ -378,7 +384,18 @@ function fire() {
         nextFire = game.time.now + fireRate;
         var orb = orbs.getFirstDead();
         orb.reset(player.x - 8, player.y - 8);
-        //game.physics.arcade.moveToObject(orb, dood, 500);
-        orb.body.velocity.x = player.body.velocity.x;
+
+        if (facing == 'right') {
+          orb.body.velocity.x = 400;
+
+        }
+        else if (facing == 'left'){
+          orb.body.velocity.x = -400;
+
+        }
     }
+}
+
+function playerHitEnemy() {
+  player_health--;
 }
