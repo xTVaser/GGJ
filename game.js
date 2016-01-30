@@ -78,12 +78,19 @@ function update() {
     game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(item, layer);
 
+    //Reset player velocity every frame
     player.body.velocity.x = 0;
 
     if (game.physics.arcade.collide(player, item) == true)
     {
       item.destroy(true);
       sodaPicked = true;
+    }
+    //Check if player is too low
+    if (player.body.y > 700) {
+        //die
+        player.x = 200;
+        player.y = 120;
     }
 
     /*if (itemPickup1 == true)
