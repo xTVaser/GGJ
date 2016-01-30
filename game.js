@@ -64,7 +64,7 @@ function create() {
     layer.resizeWorld();
 
     player = game.add.sprite(280, 736, 'dude');
-    game.physics.arcade.gravity.y = 200;
+    game.physics.arcade.gravity.y = 450;
 
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
