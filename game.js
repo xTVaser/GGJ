@@ -76,7 +76,7 @@ function create() {
 
         layer.resizeWorld();
 
-        player = game.add.sprite(280, 736, 'dude');
+        player = game.add.sprite(282, 736, 'dude');
         game.physics.arcade.gravity.y = 450;
 
         game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -110,9 +110,7 @@ function create() {
 
         cauldron.animations.add('play', [0, 1], 1, true);
 
-        witch = game.add.sprite(9435, 705, 'witch');
-        witch.scale.setTo(1.5);
-        witch.animations.add('play', [0, 1], 1, true);
+        witch = game.add.sprite()
 
         game.physics.enable(necklace, Phaser.Physics.ARCADE);
         necklace.body.collideWorldBounds = true;
@@ -217,6 +215,10 @@ function update() {
     if (game.physics.arcade.collide(player, book) == true) {
             book.destroy(true);
             bookPickup = true;
+
+            witch = game.add.sprite(9435, 705, 'witch');
+            witch.scale.setTo(1.5);
+            witch.animations.add('play', [0, 1], 1, true);
 
             text = game.add.text(game.camera.width/2, game.camera.height/2, 'Book picked up! The witch has been notified of your presence...');
             text.anchor.setTo(0.5, 0.5);
