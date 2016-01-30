@@ -31,6 +31,8 @@ var feaPickup;
 var vooPickup;
 var medPickup;
 var bookPickup;
+var gunDamage;
+var gun;
 
 var feather, book, medicinepouch, necklace, voodoo;
 var cauldron;
@@ -64,13 +66,14 @@ function create() {
     layer.resizeWorld();
 
     player = game.add.sprite(280, 736, 'dude');
-    game.physics.arcade.gravity.y = 200;
+    game.physics.arcade.gravity.y = 450;
 
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.bounce.y = 0.2;
     player.body.collideWorldBounds = true;
     player.body.setSize(20, 32, 5, 8);
+
 
     game.camera.follow(player);
 
@@ -130,34 +133,65 @@ function update() {
     game.physics.arcade.collide(medicinepouch, layer);
     game.physics.arcade.collide(book, layer);
 
+    // Collide necklace
     if (game.physics.arcade.collide(player, necklace) == true)
     {
       necklace.destroy(true);
       neckPickup = true;
     }
 
+    // Collide feather
     if (game.physics.arcade.collide(player, feather) == true)
     {
       feather.destroy(true);
       feaPickup = true;
     }
 
+    // Collide Voodoo
     if (game.physics.arcade.collide(player, voodoo) == true)
     {
       voodoo.destroy(true);
       vooPickup = true;
     }
 
+    // Collide Meds
     if (game.physics.arcade.collide(player, medicinepouch) == true)
     {
       medicinepouch.destroy(true);
       medPickup = true;
     }
 
+    // Collide book
     if (game.physics.arcade.collide(player, book) == true)
     {
       book.destroy(true);
       bookPickup = true;
+    }
+
+    if (neckPickup == true)
+    {
+      gun = true;
+      gunDamage = 50;
+    }
+
+    if (vooPickup == true)
+    {
+      gunDamage = 100;
+    }
+
+    if (medPickup)
+    {
+      player_health = 2;
+    }
+
+    if (feaPickup == true)
+    {
+      game.physics.arcade.gravity.y = 300;
+    }
+
+    if (bookPickup)
+    {
+
     }
 
     player.body.velocity.x = 0;
