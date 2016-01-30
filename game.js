@@ -23,6 +23,7 @@ var cursors;
 var jumpButton;
 var bg;
 var item;
+var sodaItem;
 
 function create() {
 jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -67,10 +68,12 @@ cursors = game.input.keyboard.createCursorKeys();
     //txt = game.add.sprite(game.camera.width -50, game.camera.height -50, 'dude');txt.anchor.setTo(0.5, 0.5);txt.fixedToCamera = true;
 
     game.camera.follow(player);
+}
 
-
-
-
+function addInventory(pickedItem){
+  newItem = game.add.sprite(game.camera.width -50, game.camera.height+210, pickedItem);
+  newItem.anchor.setTo(50, 50);
+  newItem.fixedToCamera = true;
 }
 
 function update() {
@@ -85,9 +88,7 @@ function update() {
     if (game.physics.arcade.collide(player, item) == true)
     {
       item.destroy(true);
-      sodaItem = game.add.sprite(game.camera.width -50, game.camera.height+210, 'soda');
-      sodaItem.anchor.setTo(0.5, 0.5);
-      sodaItem.fixedToCamera = true;
+      addInventory('soda');
     }
 
     /*if (itemPickup1 == true)
