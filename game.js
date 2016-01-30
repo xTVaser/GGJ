@@ -45,6 +45,11 @@ var cauldron;
 var item;
 var sodaItem;
 var sodaPicked;
+var neckText;
+var feaText;
+var vooText;
+var medText;
+var bookText;
 
 var witch;
 
@@ -143,6 +148,19 @@ function update() {
     if (game.physics.arcade.collide(player, necklace) == true) {
             necklace.destroy(true);
             neckPickup = true;
+
+            neckText = game.add.text(game.camera.width/2, game.camera.height/2, 'Necklace picked up! You have a gun now! Press Spacebar to use.');
+            neckText.anchor.setTo(0.5, 0.5);
+            neckText.fixedToCamera = true;
+            neckText.font = 'Arial Black';
+            neckText.fontSize = 14;
+            neckText.fontWeight = 'bold';
+            neckText.fill = '#ff00ff';
+
+            setTimeout(function(){
+              neckText.destroy(true);
+            }, 3000);
+
     }
 
     if (game.physics.arcade.collide(player, feather) == true) {
