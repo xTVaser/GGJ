@@ -76,9 +76,10 @@ function update() {
     game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(dood, layer);
 
+    //Reset player velocity every frame
     player.body.velocity.x = 0;
 
-    //Check if too low
+    //Check if player is too low
     if (player.body.y > 700) {
         //die
         player.x = 200;
