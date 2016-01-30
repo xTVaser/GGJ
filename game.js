@@ -1,7 +1,6 @@
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-
     game.load.tilemap('level1', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tileset1', 'assets/tileset1.png');
     game.load.spritesheet('dude', 'assets/guyset1.png', 32, 40);
@@ -31,11 +30,7 @@ function create() {
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     cursors = game.input.keyboard.createCursorKeys();
 
-
-
     game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    game.stage.backgroundColor = '#000000';
 
     bg = game.add.tileSprite(0, 0, 10000, 600, 'background');
     bg.fixedToCamera = true;
@@ -91,13 +86,19 @@ function addSprite(x, y, sprite, variable, sizeX, sizeY, sizeX2, sizeY2) {
         variable.body.setSize(sizeX, sizeY, sizeX2, sizeY2);
 }
 function update() {
-
     game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(dood, layer);
-    game.physics.arcade.collide(player, deathPlane);
 
     player.body.velocity.x = 0;
 
+    //Check if too low
+    if (player.body.y > 700) {
+        //die
+        player.x = 200;
+        player.y = 120;
+    }
+
+    //Move Left
     if (cursors.left.isDown)
     {
         player.body.velocity.x = -150;
@@ -112,6 +113,8 @@ function update() {
             facing = 'left';
         }
     }
+
+    //Move right
     else if (cursors.right.isDown)
     {
         player.body.velocity.x = 150;
@@ -122,6 +125,8 @@ function update() {
             facing = 'right';
         }
     }
+
+    //Not moving
     else
     {
         if (facing != 'idle')
@@ -141,12 +146,12 @@ function update() {
         }
     }
 
+    //Jump
     if ((jumpButton.isDown || cursors.up.isDown) && player.body.onFloor() && game.time.now > jumpTimer)
     {
         player.body.velocity.y = -250;
         jumpTimer = game.time.now + 750;
     }
-
 }
 
 function render () {
@@ -154,5 +159,7 @@ function render () {
     // game.debug.text(game.time.physicsElapsed, 32, 32);
      game.debug.body(player);
      game.debug.bodyInfo(player, 16, 24);
+    game.debug.text(player.x, 32, 32);
+    //game.debug.text(player.y, 32, 45);
 
 }
