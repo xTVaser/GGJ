@@ -39,6 +39,9 @@ var bookPickup;
 var gunDamage;
 var gun;
 var player_health = 1;
+var player_damage = 1;
+
+var witch_health = 10;
 
 var feather, book, medicinepouch, necklace, voodoo;
 var cauldron;
@@ -52,6 +55,7 @@ var medText;
 var bookText;
 
 var witch;
+
 
 function create() {
         shootButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -183,6 +187,7 @@ function update() {
     if (game.physics.arcade.collide(player, voodoo) == true) {
             voodoo.destroy(true);
             vooPickup = true;
+            player_damage++;
 
             text = game.add.text(game.camera.width/2, game.camera.height/2, 'Voodoo doll picked up! You deal more damage now!');
             text.anchor.setTo(0.5, 0.5);
@@ -200,6 +205,7 @@ function update() {
     if (game.physics.arcade.collide(player, medicinepouch) == true) {
             medicinepouch.destroy(true);
             medPickup = true;
+            player_health++;
 
             text = game.add.text(game.camera.width/2, game.camera.height/2, 'Medicine Pouch picked up! Your health pool has doubled!');
             text.anchor.setTo(0.5, 0.5);
