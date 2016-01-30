@@ -2,9 +2,9 @@ var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload:
 
 function preload() {
 
-    game.load.tilemap('level1', 'assets/cutie.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('tiles-1', 'assets/tiles-1.png');
-    game.load.spritesheet('dude', 'assets/guyset2.png', 32, 48);
+    game.load.tilemap('level1', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('tileset1', 'assets/tileset1.png');
+    game.load.spritesheet('dude', 'assets/guyset1.png', 32, 40);
     game.load.spritesheet('droid', 'assets/droid.png', 32, 32);
     game.load.image('starSmall', 'assets/star.png');
     game.load.image('starBig', 'assets/star2.png');
@@ -14,7 +14,8 @@ function preload() {
 
 var map;
 var tileset;
-var layer;
+var layer1;
+var layer2;
 var player;
 var facing = 'left';
 var jumpTimer = 0;
@@ -34,20 +35,21 @@ cursors = game.input.keyboard.createCursorKeys();
 
     map = game.add.tilemap('level1');
 
-    map.addTilesetImage('tiles-1');
+    map.addTilesetImage('tileset1');
 
     map.setCollisionByExclusion([ 13, 14, 15, 16, 46, 47, 48, 49, 50, 51 ]);
 
-    layer = map.createLayer('Tile Layer 1');
+    layer = map.createLayer('ground');
+    layer2 = map.createLayer('grass');
 
     //  Un-comment this on to see the collision tiles
-    //  layer.debug = true;
+    layer.debug = true;
 
     layer.resizeWorld();
 
     game.physics.arcade.gravity.y = 600;
 
-    player = game.add.sprite(192, 585, 'dude');
+    player = game.add.sprite(200, 0, 'dude');
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.bounce.y = 0.2;
@@ -58,7 +60,7 @@ cursors = game.input.keyboard.createCursorKeys();
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
 
-    txt = game.add.sprite(game.camera.width -50, game.camera.height -50, 'dude');txt.anchor.setTo(0.5, 0.5);txt.fixedToCamera = true;
+
 
     game.camera.follow(player);
 
@@ -76,6 +78,8 @@ function update() {
     if (cursors.left.isDown)
     {
         player.body.velocity.x = -150;
+
+        txt = game.add.sprite(game.camera.width -50, game.camera.height -50, 'dude');txt.anchor.setTo(0.5, 0.5);txt.fixedToCamera = true;
 
         if (facing != 'left')
         {
