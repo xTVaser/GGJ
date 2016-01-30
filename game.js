@@ -45,6 +45,11 @@ var cauldron;
 var item;
 var sodaItem;
 var sodaPicked;
+var text;
+var feaText;
+var vooText;
+var medText;
+var bookText;
 
 var witch;
 
@@ -70,7 +75,6 @@ function create() {
         //player.debug = true;
 
         layer.resizeWorld();
-
 
         player = game.add.sprite(280, 736, 'dude');
         game.physics.arcade.gravity.y = 450;
@@ -143,27 +147,88 @@ function update() {
     if (game.physics.arcade.collide(player, necklace) == true) {
             necklace.destroy(true);
             neckPickup = true;
+
+            text = game.add.text(game.camera.width/2, game.camera.height/2, 'Necklace picked up! You can shoot orbs now! Press Spacebar to use.');
+            text.anchor.setTo(0.5, 0.5);
+            text.fixedToCamera = true;
+            text.font = 'Arial Black';
+            text.fontSize = 14;
+            text.fontWeight = 'bold';
+            text.fill = '#ff00ff';
+
+            setTimeout(function(){
+              text.destroy(true);
+            }, 3000);
+
     }
 
     if (game.physics.arcade.collide(player, feather) == true) {
             feather.destroy(true);
             feaPickup = true;
+
+            text = game.add.text(game.camera.width/2, game.camera.height/2, 'Feather picked up! You can now jump higher!');
+            text.anchor.setTo(0.5, 0.5);
+            text.fixedToCamera = true;
+            text.font = 'Arial Black';
+            text.fontSize = 14;
+            text.fontWeight = 'bold';
+            text.fill = '#ff00ff';
+
+            setTimeout(function(){
+              text.destroy(true);
+            }, 3000);
     }
 
 
     if (game.physics.arcade.collide(player, voodoo) == true) {
             voodoo.destroy(true);
             vooPickup = true;
+
+            text = game.add.text(game.camera.width/2, game.camera.height/2, 'Voodoo doll picked up! You deal more damage now!');
+            text.anchor.setTo(0.5, 0.5);
+            text.fixedToCamera = true;
+            text.font = 'Arial Black';
+            text.fontSize = 14;
+            text.fontWeight = 'bold';
+            text.fill = '#ff00ff';
+
+            setTimeout(function(){
+              text.destroy(true);
+            }, 3000);
     }
 
     if (game.physics.arcade.collide(player, medicinepouch) == true) {
             medicinepouch.destroy(true);
             medPickup = true;
+
+            text = game.add.text(game.camera.width/2, game.camera.height/2, 'Medicine Pouch picked up! Your health pool has doubled!');
+            text.anchor.setTo(0.5, 0.5);
+            text.fixedToCamera = true;
+            text.font = 'Arial Black';
+            text.fontSize = 14;
+            text.fontWeight = 'bold';
+            text.fill = '#ff00ff';
+
+            setTimeout(function(){
+              text.destroy(true);
+            }, 3000);
     }
 
     if (game.physics.arcade.collide(player, book) == true) {
             book.destroy(true);
             bookPickup = true;
+
+            text = game.add.text(game.camera.width/2, game.camera.height/2, 'Book picked up! The witch has been notified of your presence...');
+            text.anchor.setTo(0.5, 0.5);
+            text.fixedToCamera = true;
+            text.font = 'Arial Black';
+            text.fontSize = 14;
+            text.fontWeight = 'bold';
+            text.fill = '#ff00ff';
+
+            setTimeout(function(){
+              text.destroy(true);
+            }, 3000);
     }
 
         //If player is dead, respawn
