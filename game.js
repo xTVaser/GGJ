@@ -9,6 +9,10 @@ function preload() {
     game.load.image('starBig', 'assets/star2.png');
     game.load.image('background', 'assets/tilebackground.png');
     game.load.image('feather', 'assets/feathersprite.png');
+    game.load.image('book', 'assets/booksprite.png');
+    game.load.image('medicinepouch', 'assets/medicinepouchsprite.png');
+    game.load.image('necklace', 'assets/necklacesprite.png');
+    game.load.image('voodoo', 'assets/voodoosprite.png');
 
 }
 
@@ -24,7 +28,7 @@ var jumpButton;
 var bg;
 var deathPlane;
 
-var feather;
+var feather, book, medicinepouch, necklace, voodoo;
 
 function create() {
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -49,9 +53,9 @@ function create() {
 
     layer.resizeWorld();
 
-    game.physics.arcade.gravity.y = 600;
+    game.physics.arcade.gravity.y = 0;
 
-    player = game.add.sprite(200, 0, 'dude');
+    player = game.add.sprite(2212, 850, 'dude');
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.bounce.y = 0.2;
@@ -74,14 +78,21 @@ function create() {
     dood.animations.add('right', [5, 6, 7, 8], 10, true);
     game.camera.follow(player);
 
-    addSprite(1890,608,'feather',feather,20,32,5,8)
+    addSprite(903,544,'necklace',necklace,20,32,5,8);
+    addSprite(2200,810,'feather',feather,20,32,5,8);
+    addSprite(3850,32,'voodoo',voodoo,20,32,5,8);
+    addSprite(4875,1216,'medicinepouch',medicinepouch,20,32,5,8);
+    addSprite(6753,672,'book',book,20,32,5,8);
+
+    variable = game.add.sprite(x, y, sprite);
+
+    variable.body.collideWorldBounds = true;
+    variable.body.setSize(sizeX, sizeY, sizeX2, sizeY2);
 }
 
 function addSprite(x, y, sprite, variable, sizeX, sizeY, sizeX2, sizeY2) {
         variable = game.add.sprite(x, y, sprite);
-        //game.physics.enable(variable, Phaser.Physics.ARCADE);
 
-        variable.body.bounce.y = 0.2;
         variable.body.collideWorldBounds = true;
         variable.body.setSize(sizeX, sizeY, sizeX2, sizeY2);
 }
@@ -92,7 +103,7 @@ function update() {
     player.body.velocity.x = 0;
 
     //Check if too low
-    if (player.body.y > 700) {
+    if (player.body.y > 2000) {
         //die
         player.x = 200;
         player.y = 120;
