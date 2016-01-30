@@ -79,7 +79,7 @@ function update() {
     player.body.velocity.x = 0;
 
     //Check if too low
-    if (player.body.y > 200) {
+    if (player.body.y > 700) {
         //die
         player.x = 200;
         player.y = 120;
