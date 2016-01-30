@@ -215,8 +215,8 @@ function update() {
         //Check if too low
         if (player.body.y > 1400) {
                 //die
-                player.x = 200;
-                player.y = 120;
+                player.x = 280;
+                player.y = 700;
         }
 
         //Move Left
@@ -286,9 +286,9 @@ function update() {
 function render() {
 
         // game.debug.text(game.time.physicsElapsed, 32, 32);
-        game.debug.body(player);
+        //game.debug.body(player);
         game.debug.bodyInfo(player, 16, 24);
-        game.debug.text(player.x, 32, 32);
+        //game.debug.text(player.x, 32, 32);
         //game.debug.text(player.y, 32, 45);
 
 }
