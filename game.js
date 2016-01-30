@@ -54,7 +54,7 @@ cursors = game.input.keyboard.createCursorKeys();
 
     player.body.bounce.y = 0.2;
     player.body.collideWorldBounds = true;
-    player.body.setSize(20, 32, 5, 16);
+    player.body.setSize(20, 32, 5, 10);
 
     player.animations.add('left', [3, 2, 1, 0], 10, true);
     player.animations.add('turn', [4], 20, true);
