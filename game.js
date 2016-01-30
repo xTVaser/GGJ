@@ -38,6 +38,8 @@ var item;
 var sodaItem;
 var sodaPicked;
 
+var player_health = 1;
+
 var witch;
 
 function create() {
@@ -118,6 +120,18 @@ function create() {
 }
 
 function update() {
+
+	//If player is dead, respawn
+	if (player_health == 0) {
+		player.body.x = 280;
+		player.body.y = 736;
+		player_health = 1;
+
+		//Move enemy back to start position
+		dood.body.x = 400;
+		dood.body.y = 736;
+	}
+
     game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(dood, layer);
 
@@ -242,6 +256,12 @@ function update() {
     else if (dood.body.velocity.x > 0) {
     	//Right animation
     	dood.animations.play('right');
+    }
+
+    //Check enemy collision
+    if (game.physics.arcade.collide(player, dood) == true) {
+    	//Ayy hit player lmao
+    	player_health--;
     }
 }
 
