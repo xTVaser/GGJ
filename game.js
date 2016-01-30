@@ -29,6 +29,11 @@ var cursors;
 var jumpButton;
 var bg;
 var deathPlane;
+var neckPickup;
+var feaPickup;
+var vooPickup;
+var medPickup;
+var bookPickup;
 
 var feather, book, medicinepouch, necklace, voodoo;
 var cauldron;
@@ -63,6 +68,7 @@ function create() {
 
     player = game.add.sprite(280, 736, 'dude');
     game.physics.arcade.gravity.y = 200;
+
     game.physics.enable(player, Phaser.Physics.ARCADE);
 
     player.body.bounce.y = 0.2;
@@ -86,7 +92,6 @@ function create() {
     dood.animations.add('turn', [4], 20, true);
     dood.animations.add('right', [5, 6, 7, 8], 10, true);
 
-
     necklace = game.add.sprite(903,550,'necklace');
     feather = game.add.sprite(2205,832,'feather');
     voodoo = game.add.sprite(3840,32,'voodoo');
@@ -100,20 +105,69 @@ function create() {
     witch.scale.setTo(1.5);
     witch.animations.add('play', [0,1], 1, true);
 
+    game.physics.enable(necklace, Phaser.Physics.ARCADE);
+    necklace.body.collideWorldBounds = true;
 
+    game.physics.enable(feather, Phaser.Physics.ARCADE);
+    feather.body.collideWorldBounds = true;
+
+    game.physics.enable(voodoo, Phaser.Physics.ARCADE);
+    voodoo.body.collideWorldBounds = true;
+
+    game.physics.enable(medicinepouch, Phaser.Physics.ARCADE);
+    medicinepouch.body.collideWorldBounds = true;
+
+    game.physics.enable(book, Phaser.Physics.ARCADE);
+    book.body.collideWorldBounds = true;
 }
 
 function update() {
     game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(dood, layer);
+
     cauldron.animations.play('play');
     witch.animations.play('play');
 
+    game.physics.arcade.collide(necklace, layer);
+    game.physics.arcade.collide(feather, layer);
+    game.physics.arcade.collide(voodoo, layer);
+    game.physics.arcade.collide(medicinepouch, layer);
+    game.physics.arcade.collide(book, layer);
+
+    if (game.physics.arcade.collide(player, necklace) == true)
+    {
+      necklace.destroy(true);
+      neckPickup = true;
+    }
+
+    if (game.physics.arcade.collide(player, feather) == true)
+    {
+      feather.destroy(true);
+      feaPickup = true;
+    }
+
+    if (game.physics.arcade.collide(player, voodoo) == true)
+    {
+      voodoo.destroy(true);
+      vooPickup = true;
+    }
+
+    if (game.physics.arcade.collide(player, medicinepouch) == true)
+    {
+      medicinepouch.destroy(true);
+      medPickup = true;
+    }
+
+    if (game.physics.arcade.collide(player, book) == true)
+    {
+      book.destroy(true);
+      bookPickup = true;
+    }
 
     player.body.velocity.x = 0;
 
     //Check if too low
-    if (player.body.y > 1700) {
+    if (player.body.y > 1400) {
         //die
         player.x = 200;
         player.y = 120;
