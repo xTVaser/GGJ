@@ -4,7 +4,7 @@ function preload() {
 
     game.load.tilemap('level1', 'assets/cutie.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tiles-1', 'assets/tiles-1.png');
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.load.spritesheet('dude', 'assets/guyset1.png', 32, 48);
     game.load.spritesheet('droid', 'assets/droid.png', 32, 32);
     game.load.image('starSmall', 'assets/star.png');
     game.load.image('starBig', 'assets/star2.png');
@@ -53,7 +53,7 @@ function create() {
     player.body.collideWorldBounds = true;
     player.body.setSize(20, 32, 5, 16);
 
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
+    player.animations.add('left', [3, 2, 1, 0], 10, true);
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
 
