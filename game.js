@@ -25,7 +25,7 @@ function preload() {
 }
 
 var map, tileset, layer1, layer2;
-var player, dood;
+var player;
 var facing = 'left';
 var jumpTimer = 0;
 var shootTimer = 0;
@@ -98,15 +98,24 @@ function create() {
         player.animations.add('turn', [4], 20, true);
         player.animations.add('right', [5, 6, 7, 8], 10, true);
 
-        dood = game.add.sprite(400, 736, 'enemy');
-        game.physics.enable(dood, Phaser.Physics.ARCADE);
+        //dood = game.add.sprite(400, 736, 'enemy');
 
-        dood.body.bounce.y = 0.2;
-        dood.body.collideWorldBounds = true;
-        dood.body.setSize(20, 32, 5, 10);
-        dood.animations.add('left', [3, 2, 1, 0], 10, true);
-        dood.animations.add('turn', [4], 20, true);
-        dood.animations.add('right', [5, 6, 7, 8], 10, true);
+        doods = game.add.group();
+        doods.enableBody = true;
+        doods.physicsBodyType = Phaser.Physics.ARCADE;
+
+        doods.createMultiple(10, 'orb');
+        doods.setAll('checkWorldBounds', true);
+        doods.setAll('outOfBoundsKill', true);
+
+        for(var i = 0; i < 20; i++) {
+          var dood = doods.create(i * 400, 700, 'enemy');
+          dood.body.collideWorldBound=true;
+          dood.body.bounce.y = 0.2;
+          dood.animations.add('left', [3, 2, 1, 0], 10, true);
+          dood.animations.add('turn', [4], 20, true);
+          dood.animations.add('right', [5, 6, 7, 8], 10, true);
+        }
 
         necklace = game.add.sprite(903, 550, 'necklace');
         feather = game.add.sprite(2205, 832, 'feather');
@@ -146,8 +155,8 @@ function create() {
 
 function update() {
 
+    game.physics.arcade.collide(doods, layer);
     game.physics.arcade.collide(player, layer);
-    game.physics.arcade.collide(dood, layer);
 
     cauldron.animations.play('play');
     witch.animations.play('play');
@@ -258,15 +267,15 @@ function update() {
 		player_health = 1;
 
 		//Move enemy back to start position
-		dood.body.x = 400;
-		dood.body.y = 736;
+		//dood.body.x = 400;
+		//dood.body.y = 736;
 	}
 
             //Check enemy collision
-    if (game.physics.arcade.collide(player, dood) == true) {
+    //if (game.physics.arcade.collide(player, dood) == true) {
     	//Ayy hit player lmao
-    	player_health--;
-    }
+    	//player_health--;
+    //}
 
 
     if (neckPickup == true)
@@ -350,23 +359,26 @@ function update() {
         }
 
         //shoot
-        if (shootButton.isDown && game.time.now > shootTimer) {
+        if (neckPickup && shootButton.isDown && game.time.now > shootTimer) {
                 //player.body.velocity.y = -250;
                 shootTimer = game.time.now + 750;
                 fire();
         }
 
         //Enemy follow player
-        game.physics.arcade.moveToObject(dood, player, 10);
+        doods.forEach(function(dood) {
+          game.physics.arcade.moveToObject(dood, player, 10);
+          
+          if (dood.body.velocity.x < 0) {
+                  //Left animation
+                  dood.animations.play('left');
+          } else if (dood.body.velocity.x > 0) {
+                  //Right animation
+                  dood.animations.play('right');
+          }
+        })
 
-        //Check enemy direction for animation purposes
-        if (dood.body.velocity.x < 0) {
-                //Left animation
-                dood.animations.play('left');
-        } else if (dood.body.velocity.x > 0) {
-                //Right animation
-                dood.animations.play('right');
-        }
+
 }
 
 function render() {
@@ -384,6 +396,7 @@ function fire() {
         nextFire = game.time.now + fireRate;
         var orb = orbs.getFirstDead();
         orb.reset(player.x - 8, player.y - 8);
-        game.physics.arcade.moveToObject(orb, dood, 500);
+        //game.physics.arcade.moveToObject(orb, dood, 500);
+        orb.body.velocity.x = player.body.velocity.x;
     }
 }
