@@ -40,6 +40,7 @@ var bookPickup;
 var gunDamage;
 var player_health = 1;
 var player_damage = 1;
+var faceRight = true;
 
 var witch_health = 10;
 
@@ -325,12 +326,14 @@ function update() {
 
   //If left key is pressed, move left
   if (cursors.left.isDown) {
+    faceRight = false;
     player.body.velocity.x = -150;
     player.animations.play('left');
   }
 
   //If right key is pressed, move right
   else if (cursors.right.isDown) {
+    faceRight = true;
     player.body.velocity.x = 150;
     player.animations.play('right');
   }
@@ -390,10 +393,9 @@ function update() {
   })
 }
 
-//This is called every frame, use this to draw things not automatically drawn
 function render() {
   //Writes the player sprite object information to the screen for debugging
-  game.debug.bodyInfo(player, 16, 24);
+  //game.debug.bodyInfo(player, 16, 24);
 }
 
 //Called when the player fires a bullet
@@ -411,12 +413,12 @@ function fire() {
     orb.reset(player.x, player.y);
 
     //If the player is moving right, launch the orb right
-    if (player.body.velocity > 0) {
-      orb.body.velocity.x = 400;
+    if (faceRight) {
+      orb.body.velocity.x = 300;
 
     } //Otherwise, launch the orb to the left
-    else if (player.body.velocity < 0){
-      orb.body.velocity.x = -400;
+    else {
+      orb.body.velocity.x = -300;
     }
   }
 }
