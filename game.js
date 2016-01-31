@@ -38,7 +38,6 @@ var vooPickup;
 var medPickup;
 var bookPickup;
 var gunDamage;
-var gun;
 var player_health = 1;
 var player_damage = 1;
 
@@ -99,7 +98,7 @@ function create() {
   //Add the player to the scene at x:282 y:736
   player = game.add.sprite(282, 736, 'dude');
 
-  //Set world gravityy
+  //Set world gravity
   game.physics.arcade.gravity.y = 450;
 
   //Enable physics for the player
@@ -168,6 +167,12 @@ function create() {
 
   //Create witch sprite
   witch = game.add.sprite()
+
+  //Set hitbox on witch so it can collide
+  //witch.body.setSize(20, 32, 5, 8);
+
+  //Enable physics for the witch
+  game.physics.enable(player, Phaser.Physics.ARCADE);
 
   //Enable physics for all the items (so they don't fall through the floor)
   //Also make sure they collide with the world bounds
@@ -281,9 +286,7 @@ function update() {
 
   //If player is dead, respawn at the start position and reset their health
   if (player_health == 0) {
-    player.body.x = 280;
-    player.body.y = 700;
-    player_health = 1;
+    reset();
   }
 
   //Check if witch is dead
@@ -299,21 +302,25 @@ function update() {
   //Check for powerups
   if (neckPickup == true)
   {
-    gun = true;
     player_damage = 50;
+  }
+  else {
+    player_damage = 1;
   }
 
   if (feaPickup == true)
   {
     game.physics.arcade.gravity.y = 300;
   }
+  else {
+    game.physics.arcade.gravity.y = 450;
+  }
 
 
   //Check if player fell off the map
-  if (player.body.y > 900) {
-    //Reset player back to starting position
-    player.x = 280;
-    player.y = 700;
+  if (player.body.y > 1200) {
+    //Reset player progress
+    reset();
   }
 
   //If left key is pressed, move left
@@ -401,7 +408,7 @@ function fire() {
     var orb = orbs.getFirstDead();
 
     //Sets the orb's position to the player's position
-    orb.reset(player.x - 8, player.y - 8);
+    orb.reset(player.x, player.y);
 
     //If the player is moving right, launch the orb right
     if (player.body.velocity > 0) {
@@ -434,4 +441,49 @@ function writeText(msg) {
   setTimeout(function(){
     text.destroy(true);
   }, 3000);
+}
+
+//Resets boolean flags for power ups and replaces the items into the world
+function reset() {
+
+  //Reset player health
+  player_health = 1;
+
+  //Reset player position
+  player.x = 280;
+  player.y = 720;
+
+  //Disable power ups
+  neckPickup = false;
+  feaPickup = false;
+  vooPickup = false;
+  medPickup = false;
+  bookPickup = false;
+
+  //Add items back into world
+  necklace = game.add.sprite(903, 550, 'necklace');
+  feather = game.add.sprite(2205, 832, 'feather');
+  voodoo = game.add.sprite(3840, 32, 'voodoo');
+  medicinepouch = game.add.sprite(4875, 1220, 'medicinepouch');
+  book = game.add.sprite(6753, 680, 'book');
+  cauldron = game.add.sprite(9415, 736, 'cauldron');
+
+  //Reset gun damage
+  gunDamage = 1;
+
+  //Reset item colliders
+  game.physics.enable(necklace, Phaser.Physics.ARCADE);
+  necklace.body.collideWorldBounds = true;
+
+  game.physics.enable(feather, Phaser.Physics.ARCADE);
+  feather.body.collideWorldBounds = true;
+
+  game.physics.enable(voodoo, Phaser.Physics.ARCADE);
+  voodoo.body.collideWorldBounds = true;
+
+  game.physics.enable(medicinepouch, Phaser.Physics.ARCADE);
+  medicinepouch.body.collideWorldBounds = true;
+
+  game.physics.enable(book, Phaser.Physics.ARCADE);
+  book.body.collideWorldBounds = true;
 }
