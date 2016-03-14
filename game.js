@@ -1,3 +1,11 @@
+myAudio = new Audio('sound/music.ogg');
+myAudio.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+myAudio.play();
+
+
 //Create new instance of Phaser game and map the critical functions to functions in this file
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', {
   preload: preload,
@@ -97,7 +105,7 @@ function create() {
   layer.resizeWorld();
 
   //Add the player to the scene at x:282 y:736
-  player = game.add.sprite(282, 736, 'dude');
+  player = game.add.sprite(400, 736, 'dude');
 
   //Set world gravity
   game.physics.arcade.gravity.y = 450;
@@ -167,10 +175,10 @@ function create() {
   cauldron.animations.add('play', [0, 1], 1, true);
 
   //Create witch sprite
-  witch = game.add.sprite()
+  //witch = game.add.sprite();
 
   //Set hitbox on witch so it can collide
-  //witch.body.setSize(20, 32, 5, 8);
+
 
   //Enable physics for the witch
   game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -219,7 +227,7 @@ function update() {
 
   //Play the cauldron and witch animations every frame
   cauldron.animations.play('play');
-  witch.animations.play('play');
+  //witch.animations.play('play');
 
   //Set the power-ups to collide with the ground layer
   game.physics.arcade.collide(necklace, layer);
@@ -273,9 +281,12 @@ function update() {
     bookPickup = true;
 
     witch = game.add.sprite(9435, 705, 'witch');
+    game.physics.enable(witch, Phaser.Physics.ARCADE);
+    witch.body.collideWorldBounds = true;
+    witch.body.setSize(20, 32, 5, 8);
     witch.scale.setTo(1.5);
     witch.animations.add('play', [0, 1], 1, true);
-    witch.body.collideWorldBounds = true;
+
 
     writeText('Book picked up! The witch has been notified of your presence...');
   }
